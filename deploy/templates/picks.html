@@ -39,11 +39,23 @@
         <!-- About Section -->
 
         <section id="about" class="about-section text-center">
+          <div class="jumbotron jumbotron-fluid">
+            <div class = "container">
+            <h1>Daily Picks</h1>
+            <p>As there is currently no baseball season, the model is simulating back through the 2019 season.
+              The data collection is operating with a timedelta of 1 year, and as soon as baseball returns (hopefully),
+            this will be up and running. The model will offer a pick on every game. Currently, there are three levels of plays: </p>
+            <p> 1. This is a high value play, this is the highest level the model recommends</p>
+            <p> 2. This is decent value play, go ahead and take it</p>
+            <p> 3. Don't do it. Seek help. </p>
+            <p> Feel free to keep track of how the model is doing. There will be a feature added
+              for tracking performance, but I will not be adding that until the new season starts.
+              Even though the data is being pulled each day as if it were new, these are all games the model
+              was already trained on so this is not a fair performance test. 
+            </p>
+          </div>
+            </div>
           <div class="container">
-            <div class="jumbotron">
-              <h1>Daily Picks</h1>
-              <p>As there is currently no baseball season, the model is simulating back through the 2019 season. </p>
-              </div>
             {% for table in tables %}
             {{ table|safe }}
             {% endfor %}

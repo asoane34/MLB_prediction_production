@@ -3,11 +3,16 @@ import pandas as pd
 import json
 import tensorflow as tf 
 from tensorflow.keras.models import model_from_json 
-from utils import generate_lines
+from utils import generate_lines, model_play
 
 today_games = pd.read_csv("../data_collection/all_data/today_games.csv")
 
 model_inputs = pd.read_csv("../data_collection/all_data/model_prepared.csv").values
+
+output_columns = [
+    "Date", "Road Team", "Home Team", "Road Starter", "Home Starter", "Home Closing",
+    "Road Closing", "Model Plays"
+]
 
 def load_model():
 
@@ -31,6 +36,12 @@ def render_predictions():
     load_model()
 
     all_picks = generate_lines(model, today_games, model_inputs)
+
+    all_picks["Model Plays"] = all_picks.apply(lambda x: model_play(x), axis = 1)
+
+    all_picks = all_picks.drop(columns = ["model_home"])
+
+    all_picks.columns = output_columns
 
     return(render_template("picks.html", tables = [all_picks.to_html(classes = "table table-striped table-dark", index = False)]))
 

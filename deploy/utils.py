@@ -3,72 +3,37 @@ Utility function for model predictions / deployment
 '''
 import pandas as pd 
 
-def id_converter(current_season, all_time):
+def model_play(obs):
     
-    all_current = set(list(current_season.home_starter.unique()) + list(current_season.road_starter.unique()))
-
-    s_map = {}
-
-    for starter in all_current:
-
-        if len(starter) == 9:
+    if obs.model_home > 0:
+        
+        if obs.home_closing > obs.model_home:
             
-            n = starter[-1]
-
-            retro_id = starter[:4] + starter[5] + "00" + n
+            return("{} {} - Play Value: 3".format(obs.road_team, obs.road_closing))
+        
+        elif 0 < obs.home_closing < obs.model_home:
             
-            if retro_id not in all_time:
-                
-                while int(n) < 10:
-                    
-                    n = str(int(n) + 1)
-                    
-                    retro_id = starter[:4] + starter[5] + "00" + n
-                    
-                    if retro_id in all_time:
-                        
-                        break
-
-            s_map[starter] = retro_id
-
-        elif len(starter) == 8:
-
-            retro_id = starter[:4] + starter[4] + "00" + starter[-1]
+            return("{} {} - Play Value: 2".format(obs.road_team, obs.road_closing))
+        
+        else:
             
-            if retro_id not in all_time:
-                
-                while int(n) < 10:
-                    
-                    n = str(int(n) + 1)
-                    
-                    retro_id = starter[:4] + starter[4] + "00" + n
-                    
-                    if retro_id in all_time:
-                        
-                        break
-
-            s_map[starter] = retro_id
-
-        elif len(starter) == 7:
-
-            retro_id == starter[:3] + "-" + starter[3] + "00" + starter[-1]
+            return("{} {} - Play Value: 1".format(obs.road_team, obs.road_closing))
+        
+    else:
+        
+        if obs.home_closing < obs.model_home:
             
-            if retro_id not in all_time:
-                
-                while int(n) < 10:
-                    
-                    n = str(int(n) + 1)
-                    
-                    retro_id = starter[:3] + "-"  + starter[3] + "00" + n
-                    
-                    if retro_id in all_time:
-                        
-                        break
-
-            s_map[starter] = retro_id
+            return("{} {} - Play Value: 3".format(obs.home_team, obs.home_closing))
+        
+        elif obs.model_home < obs.home_closing < 0:
             
-    return(s_map)
+            return("{} {} - Play Value: 2".format(obs.home_team, obs.home_closing))
+                   
+        else:
+            
+            return("{} {} - Play Value: 1".format(obs.home_team, obs.home_closing))
 
+            
 def create_lines(x):
     
     if x > 0.5:
