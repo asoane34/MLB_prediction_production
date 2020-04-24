@@ -4,7 +4,9 @@
 
 This repository contains the data collection scripts as well as app deployment to AWS EC2 instance. 
 
-The model instance is available here: <http://http://3.20.226.194/>
+The model was deployed using AWS Elastic Beanstalk with an environment built from a custom Docker image. 
+
+The model is available here: <http://mlbdailypredictions-env.eba-cfvakqyc.us-east-2.elasticbeanstalk.com/>
 
 The repository containing detailed initial data collection, data experimentation, and model design can be found here:
 <https://github.com/asoane34/retrosheet_analysis>
